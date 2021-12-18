@@ -1,0 +1,39 @@
+{% extends 'trainingsplaner_app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% load crispy_forms_tags %} 
+
+
+
+<div class="container" style="width: 95%;">
+  <div class="row h-25"></div>  
+  <div class="row justify-content-center">
+    <div class="col-lg-6 text-center">
+        <p style="font-size: 18px;">
+          you can reach me at:<br>
+        </p>
+
+        <div>
+          <a class="btn btn-outline-danger ml-2" href="{% url 'contact' %}" role="button">LINK</a>
+        </div>
+        
+        <p style="font-size: 20px;" class="mt-5">
+          <a href="#" style="text-decoration: yes;" class="text-dark">example@example.com</a>
+        </p>
+
+        <p style="font-size: 17px;" class="mt-6">
+          i will answer as soon as possible.
+        </p>
+
+        
+      </div>
+    </div>
+    <div class="row h-25"></div>  
+  </div>
+
+
+
+
+{% endblock %}

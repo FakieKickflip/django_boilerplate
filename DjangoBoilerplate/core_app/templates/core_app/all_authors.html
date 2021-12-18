@@ -1,0 +1,62 @@
+
+{% extends 'core_app/base.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %} 
+
+
+<div class="container mt-5">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-8">
+            {% for author in authors %}
+                <b>{{author.name}}</b>
+                <table class="table mb-5">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in author.book_set.all %}
+                            <tr id='whole_row_{{book.id}}'>
+                                <th scope="row"></th>
+                                <td>{{book.title}}</td>
+                                <td>{{book.author}}</td>
+                                <td><button class='link-hover' id="trash_{{book.id}}">Delete</button></td>
+                            </tr>
+
+                            <script>
+                                $( document ).ready(function() {
+                                  let csrftoken = '{{ csrf_token }}'
+                                  $( document ).on('click', '#trash_{{book.id}}', function(e) {
+                                    $.ajax({
+                                              type : "POST", 
+                                              url: "{% url 'all_authors' %}",
+                                              data: {
+                                                'csrfmiddlewaretoken': csrftoken,
+                                                'trash_id': '{{book.id}}',
+                                                'request': '{{request}}',
+                                              },
+                                              datatype:'json',
+                                              success: function(datas) {
+                                                $("#whole_row_{{book.id}}").remove()
+                                              }
+                                          });
+                                  }); 
+                                });
+                              </script> 
+
+                        {% endfor %}    
+                    </tbody>
+                </table>
+            {% endfor %}  
+        </div>    
+    </div>
+</div>        
+
+{% endblock %}
+

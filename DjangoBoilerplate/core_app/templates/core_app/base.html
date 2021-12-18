@@ -1,0 +1,148 @@
+{% load static %}
+
+
+<style type="text/css">
+    @font-face {
+        font-family: 'hk-grotesk';
+        src: url("{% static 'core_app/fonts/hk-grotesk.regular.ttf' %}")
+      }  
+</style>
+
+<link rel="stylesheet" type="text/css" href="{% static 'core_app/css/bootstrap.css' %}"/>
+<link href="{% static 'core_app/css/myself.css' %}" rel="stylesheet" type="text/css"/>
+
+
+
+<html lang="en">
+<head>
+  <meta meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+  <title>core</title>
+</head>
+
+
+
+<script type="text/javascript">
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+    function uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+
+
+    let device = getCookie('device')
+
+    if (device == null || device == undefined){
+        device = uuidv4()
+    }
+
+    document.cookie ='device=' + device + ";domain=;path=/"
+
+</script>
+
+
+
+<body class="bg-light" style="font-family: hk-grotesk;">
+
+    <script src="{% static 'core_app/js/jquery-3.6.0.js' %}"></script>   
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light mt-2 ">
+        <a href="{% url 'home' %}"  style="font-family: hk-grotesk; color: black; font-size: 20px; text-decoration:none;">
+            core
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav w-100 justify-content-around ">
+                {% if user.is_authenticated %}
+                    <li class="nav-item ml-4 text-center-smartphone">
+                        <a class="nav-link " style="font-family: hk-grotesk; font-size: 17px;" href="{% url 'contact' %}"> Contact </a>
+                    </li>
+                    {% if user.is_staff %}
+                        <li class="nav-item ml-4 text-center-smartphone">
+                            <a class="nav-link " style="font-family: hk-grotesk; font-size: 17px;" href="{% url 'admin:index' %}"> Admin </a>
+                        </li>
+                    {% endif %}
+                {% endif %}     
+            </ul>
+            <ul class="navbar-nav w-100 ml-auto justify-content-end ">
+                {% if user.is_authenticated %} 
+                    <li class="nav-item list-unstyled ml-4 text-center-smartphone">
+                        <a class="btn btn-outline-danger ml-2" style="font-family: hk-grotesk; font-size: 17px;" href="{% url 'logout' %}" role="button">Logout</a>
+                    </li>   
+                {% else %}
+                    <li class="nav-item list-unstyled ml-4 text-center-smartphone">    
+                        <a class="btn btn-outline-success ml-2" style="font-family: hk-grotesk; font-size: 17px;" href="{% url 'login' %}" role="button">Login</a>
+                    </li> 
+                {% endif %}  
+            </ul>
+        </div>
+
+      </nav>    
+
+      
+    {% if messages %}
+        {% for message in messages%}
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{message}}
+            </div>   
+        {% endfor%}
+    {% endif %}
+
+
+
+    <div id="content" name="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+    
+    <div class="row h-25"></div>  
+    <footer class="footer bg-light" style="position: relative;">
+      <div class="container mt-6">
+            <div class="row text-muted justify-content-around">
+                <p class="text-muted" style="font-family: hk-grotesk;">
+                    &copy; 2021 all rights reserved
+                </p>
+
+                <p class="text-muted" >
+                    <a href="" class="text-muted" style="text-decoration: none;">imprint</a>
+                </p>
+            </div>
+      </div>
+    </footer>
+    
+
+<script src="{% static 'core_app/js/popper.min.js' %}"></script>       
+<script src="{% static 'core_app/js/bootstrap.js' %}"></script>     
+
+
+
+
+
+
+</body>
+</html>
