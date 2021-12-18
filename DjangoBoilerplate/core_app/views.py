@@ -1,9 +1,11 @@
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from django_q.models import Schedule
 from .models import Author, Book
-from .forms import AuthorForm, BookForm
+from .forms import AuthorForm, BookForm, EmailForm
 
 # Create your views here.
 
@@ -13,8 +15,6 @@ from .forms import AuthorForm, BookForm
 def index(request):
 
     title_text = 'work in progress... '
-
-    #Schedule.objects.create(func='trainingsplaner_app.schedule_tasks.print_me', args="'Halli Hallo'", schedule_type=Schedule.ONCE, repeats=1)
 
     return render(request, "core_app/index.html",
     {"title_text": title_text})
@@ -102,4 +102,24 @@ def all_authors(request):
 
 
 
+def send_email(request):
+    if request.method == "POST": 
+        form = EmailForm(data=request.POST)
+        if form.is_valid(): 
+            if len(request.POST.keys()) > 1: #not only the csrf-token
+                
+                receiver_email = form.cleaned_data['email']
+                text = form.cleaned_data['text']
+
+                print(settings.EMAIL_HOST_USER)
+
+                send_mail('A cool subject', text, settings.EMAIL_HOST_USER, [receiver_email])                
+
+                messages.success(request, message=f'The message has been send.')
+        return redirect('/send_email/')
+
+    else:
+        form = EmailForm()
+        return render(request, "core_app/forms.html",
+        {'form': form})
 

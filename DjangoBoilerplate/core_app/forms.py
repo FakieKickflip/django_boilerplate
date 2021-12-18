@@ -24,3 +24,8 @@ class BookForm(ModelForm):
                 'max_length': _("This writer's name is too long."),
             },
         }
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(label='Email', max_length=240, required=True)   
+    text = forms.CharField(widget=forms.Textarea, label='Your Message', required=True)    
