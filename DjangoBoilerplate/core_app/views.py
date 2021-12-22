@@ -15,6 +15,7 @@ from .forms import AuthorForm, BookForm, EmailForm
 def index(request):
 
     title_text = 'work in progress... '
+    
 
     return render(request, "core_app/index.html",
     {"title_text": title_text})

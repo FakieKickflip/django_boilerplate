@@ -12,7 +12,7 @@ class AuthorForm(forms.Form):
 class BookForm(ModelForm):
     class Meta:
         model = Book
-        fields = ('title', 'author')
+        fields = ('title', 'author', 'release_month')
         labels = {
             'author': _('Author'),
         }
