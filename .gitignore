@@ -126,4 +126,4 @@ GitHub.sublime-settings
 postgres_data/
 
 #info
-text.txt
+*.txt
