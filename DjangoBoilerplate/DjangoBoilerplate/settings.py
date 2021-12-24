@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-from typing import cast
 import environ
 import sys
 
@@ -49,6 +48,7 @@ else:
 
 
 
+
 # Important settings --------------
 
 SECRET_KEY = env('SECRET_KEY')
@@ -56,6 +56,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 
+print(ALLOWED_HOSTS)
 
 # Application definition ---------------
 
@@ -129,6 +130,8 @@ DATABASES = {
         "PORT": env("SQL_PORT", default="5432"),
     }
 }
+
+print(DATABASES)
 
 
 
