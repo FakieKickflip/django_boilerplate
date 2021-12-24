@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import config
+#from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -149,6 +149,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ #der Ort, wo Django noch nach static files schauen soll
     os.path.join(BASE_DIR, "static/"),
     ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

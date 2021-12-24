@@ -12,25 +12,52 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from typing import cast
-from decouple import config
+import environ
+import sys
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
+# Paths ------------------
+
+#build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = []
+#the path to the folder where the .env files sit
+PATH_TO_ENV = Path(__file__).resolve().parent.parent.parent
 
 
-# Application definition
+
+
+# Env settings ------------------------
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(list, [])
+)
+
+#get the ENV variable
+ENVIRONMENT=os.environ.get("ENV")
+if ENVIRONMENT == "dev":
+    environ.Env.read_env(os.path.join(PATH_TO_ENV, ".env.dev"))
+elif ENVIRONMENT == "prod":
+    environ.Env.read_env(os.path.join(PATH_TO_ENV,".env.prod"))
+else:
+    print("-> Missing the environment variable ENV (dev | prod). Set it via 'export ENV=dev' or 'export ENV=prod' ")
+    sys.exit(1)
+
+
+
+
+# Important settings --------------
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+
+
+
+# Application definition ---------------
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -77,8 +104,10 @@ WSGI_APPLICATION = 'DjangoBoilerplate.wsgi.application'
 
 
 
+# DjangoQ ------------
+
 Q_CLUSTER = {
-    'name': 'DjangORM',
+    'name': 'DjangQ-ORM',
     'workers': 2,
     'timeout': 60,
     'queue_limit': 10,
@@ -88,19 +117,22 @@ Q_CLUSTER = {
 
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+# Database ------------
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": env("SQL_ENGINE", default="django.db.backends.sqlite3"),
+        "NAME": env("SQL_DATABASE", default = os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": env("SQL_USER", default="user"),
+        "PASSWORD": env("SQL_PASSWORD", default="password"),
+        "HOST": env("SQL_HOST", default="localhost"),
+        "PORT": env("SQL_PORT", default="5432"),
     }
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+# Password validation -----------
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -119,40 +151,49 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-EMAIL_BACKEND = config('EMAIL_BACKEND')
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
-EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# Mail settings -------------
+
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
+# Internationalization -----------
 
 LANGUAGE_CODE = 'de-DE'
-
 TIME_ZONE = 'Europe/Berlin'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+
+
+# Static files (CSS, JavaScript, Images) --------------------
 
 STATIC_URL = '/static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [ #der Ort, wo Django noch nach static files schauen soll
+    os.path.join(BASE_DIR, "static"),
+    ]
+
+
+
+# Default primary key field type ----------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+
+# Additional settings --------------
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = '/'
@@ -160,9 +201,3 @@ LOGIN_URL = '/login/'
 
 
 
-
-
-
-# Override production variables if DJANGO_DEVELOPMENT env variable is set
-if os.environ.get('DJANGO_DEVELOPMENT'):
-    from .settings_dev import *  # or specific overrides
