@@ -124,3 +124,6 @@ GitHub.sublime-settings
 
 #database
 postgres_data/
+
+#info
+text.txt
