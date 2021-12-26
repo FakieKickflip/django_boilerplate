@@ -56,8 +56,6 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 
-print(ALLOWED_HOSTS)
-
 # Application definition ---------------
 
 INSTALLED_APPS = [
@@ -131,7 +129,6 @@ DATABASES = {
     }
 }
 
-print(DATABASES)
 
 
 
