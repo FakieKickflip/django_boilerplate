@@ -42,7 +42,7 @@ if ENVIRONMENT == "dev":
 elif ENVIRONMENT == "prod":
     environ.Env.read_env(os.path.join(PATH_TO_ENV,".env.prod"))
 else:
-    print("-> Missing the environment variable ENV (dev | prod). Set it via 'export ENV=dev' or 'export ENV=prod' ")
+    print("-> Missing the environment variable ENV (dev | prod). Set it via 'export ENV=dev' or 'export ENV=prod' or in the .env files. ")
     sys.exit(1)
 
 
@@ -179,7 +179,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#STATIC_ROOT = os.path.join(BASE_DIR, "static")
+#place where collectstatic copy paste the files 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+
+#where django is looking for static files to copy-paste them via colelctstatic
 STATICFILES_DIRS = [ #der Ort, wo Django noch nach static files schauen soll
     os.path.join(BASE_DIR, "static"),
     ]

@@ -15,7 +15,15 @@ services:
       - ./.env.dev
     depends_on:
       - db
-
+  djangoq:
+      build: .
+      command: python manage.py qcluster
+      volumes:
+          - ./:/django-app
+      env_file:
+          - ./.env.dev    
+      depends_on:
+          - web    
   db:
     image: postgres:13.0-alpine
     volumes:

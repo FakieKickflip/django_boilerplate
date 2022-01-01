@@ -7,12 +7,15 @@ services:
       context: .
       dockerfile: ./Dockerfile.prod
     command: gunicorn DjangoBoilerplate.wsgi:application --bind 0.0.0.0:8000
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
+    volumes:
+      - ./core_app/static/:/django-app/staticfiles/  
     env_file:
       - ./.env.prod
     depends_on:
       - db
+
   db:
     image: postgres:13.0-alpine
     volumes:
@@ -20,5 +23,25 @@ services:
     env_file:
       - ./.env.prod.db  
 
+  djangoq:
+    build: .
+    command: python manage.py qcluster
+    volumes:
+        - ./:/django-app
+    env_file:
+        - ./.env.prod    
+    depends_on:
+        - web    
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    volumes:
+      - ./core_app/static/:/django-app/staticfiles/  
+    depends_on:
+      - web    
+
 volumes:
   postgres_data:
+  static:
