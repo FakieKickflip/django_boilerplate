@@ -30,6 +30,7 @@
 - Scheduled and background task with Django-Q
 - Sending e-mails 
 <br>
+
 - Development and production environment 
 - Dockerfile for dev and prod environment
 - Docker-compose files for dev and prod environment
@@ -37,6 +38,7 @@
 - Nginx as reserved proxy to serve static files in production
 - gunicorn as application server in production
 <br>
+
 - Full git control 
 
 
