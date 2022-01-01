@@ -59,6 +59,7 @@ Files which are related to the development environment:
 Commands for starting the development environment locally:
 
 <code>docker-compose -f docker-compose.dev.yml build</code>
+
 &nbsp;
 <code>docker-compose -f docker-compose.dev.yml up</code>
 
@@ -78,9 +79,13 @@ Files which are related to the production environment:
 - env.prod.db
 - nginx/Dockerfile
 - nginx/conf
+&nbsp;
+
+Commands to start the production environment:
 
 &nbsp;
 <code>docker-compose -f docker-compose.prod.yml build</code>
+
 &nbsp;
 <code>docker-compose -f docker-compose.prod.yml up</code>
 
