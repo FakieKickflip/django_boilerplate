@@ -41,6 +41,8 @@
 
 - Full git control 
 
+<br>
+Use this as a basis and please customize your application as you like. 
 
 
 <br>
@@ -64,6 +66,7 @@ Commands for starting the development environment locally:
 <code>docker-compose -f docker-compose.dev.yml build</code>
 
 <code>docker-compose -f docker-compose.dev.yml up</code>
+
 
 
 <br>
