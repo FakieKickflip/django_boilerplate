@@ -54,10 +54,12 @@ Files which are related to the development environment:
 - docker-compose.dev.yml
 - entrypoint.sh
 - env.dev
+
 &nbsp;
 Commands for starting the development environment locally:
 
 <code>docker-compose -f docker-compose.dev.yml build</code>
+&nbsp;
 <code>docker-compose -f docker-compose.dev.yml up</code>
 
 
@@ -79,10 +81,13 @@ Files which are related to the production environment:
 
 &nbsp;
 <code>docker-compose -f docker-compose.prod.yml build</code>
+&nbsp;
 <code>docker-compose -f docker-compose.prod.yml up</code>
 
-Migrate the models (only the first time and if you changed a model)
+Migrate the models (only the first time and if you changed a model):
+
 <code>docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput </code>
 
-Collect all static files so that the nginx can serve them
+Collect all static files so that the nginx can serve them:
+
 <code>docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear </code>
