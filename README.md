@@ -1,7 +1,7 @@
 
 # DjangoBoilerplate for a fully functional development and production evironment for large web applications
 
-&nbsp;
+<br>
 
 ## Table of Contents
 
@@ -10,7 +10,7 @@
 - [Production environment](#production)
 - [Docker commands](#contributing)
 
-&nbsp;
+<br>
 
 ## With what this boilerplate project comes with
 
@@ -29,19 +29,19 @@
 - Async with jQeury
 - Scheduled and background task with Django-Q
 - Sending e-mails 
-&nbsp;
+<br>
 - Development and production environment 
 - Dockerfile for dev and prod environment
 - Docker-compose files for dev and prod environment
 - Handle environment variables with .env files
 - Nginx as reserved proxy to serve static files in production
 - gunicorn as application server in production
-&nbsp;
+<br>
 - Full git control 
 
 
 
-&nbsp;
+<br>
 
 ## Development environment
 
@@ -55,16 +55,16 @@ Files which are related to the development environment:
 - entrypoint.sh
 - env.dev
 
-&nbsp;
+<br>
+
 Commands for starting the development environment locally:
 
 <code>docker-compose -f docker-compose.dev.yml build</code>
 
-&nbsp;
 <code>docker-compose -f docker-compose.dev.yml up</code>
 
 
-&nbsp;
+<br>
 ## Production evironment
 
 The production environment comes with a nginx as web server and gunicorn for serving the application. 
@@ -79,14 +79,13 @@ Files which are related to the production environment:
 - env.prod.db
 - nginx/Dockerfile
 - nginx/conf
-&nbsp;
+
+<br>
 
 Commands to start the production environment:
 
-&nbsp;
 <code>docker-compose -f docker-compose.prod.yml build</code>
 
-&nbsp;
 <code>docker-compose -f docker-compose.prod.yml up</code>
 
 Migrate the models (only the first time and if you changed a model):
